@@ -1,0 +1,32 @@
+few	0
+a few	0
+the few	0
+bit	0
+a bit	0
+some	0
+somewhat	0
+what	0
+some what	0
+little	0
+little bit	0
+not that	0
+so	1
+very	1
+so much	1
+very much	1
+most	1
+mostly	1
+deeply	1
+deep	1
+lot	1
+pretty	1
+preety much	1
+a lot	1
+total	1
+totally	1
+extreme	1
+extremly	1
+damm	1
+fucking	1
+complete	1
+completely	1
