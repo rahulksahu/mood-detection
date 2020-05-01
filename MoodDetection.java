@@ -37,11 +37,6 @@ public class Mood_Detection {
 	public static final String spl = "1234567890#@%^&()_=`{}:\"|[];\',./\n\t\r ";
 	public static final CharMatcher matcher = CharMatcher.anyOf(spl);
 	
-	//public static final Map<String, Integer> emoval = new HashMap<String, Integer>();
-	
-	//Dictionary d = Dictionary.getDefaultResourceInstance();
-	
-	//public static final char anger=0, disgust=1, fear=2, joy=3, sad=4, surprise=5, other=6;
 	public static final double[] amplifyFactor = {0.66, 1.5};
 	public static final List<String> emotions = Arrays.asList("anger", "disgust", "fear", "joy", "sad", "surprise", "other");
 	public static int[] emoset = {0,0,0,0,0,0,0};
@@ -49,10 +44,7 @@ public class Mood_Detection {
 	public static final List<String> verbs1 = Arrays.asList("is", "am", "are");
 	public static final List<String> verbs2 = Arrays.asList("was", "were");
 	public static final List<String> verbs3 = Arrays.asList("will", "shall", "would");
-	//public static List<Double> tagscore = new ArrayList<Double>();
-	
-	//public static englishStemmer stemmer = new englishStemmer();
-	
+
 	public static class tuple6 {
 		private String word_stem, tag, word_orig;
 		private double tag_score;
@@ -71,7 +63,6 @@ public class Mood_Detection {
 	
 	public static class Pair<T>{
 		private T left, right;
-		//public Pair<T>(){ left = 0; right = 0; }
 		public Pair(T a, T b){
 			left = a;
 			right = b;
@@ -83,8 +74,6 @@ public class Mood_Detection {
 		return text.replaceAll("[^\\x00-\\x7F]", " ");
 	}
 	
-	//public String expandAcro ()
-	
 	public static String stringJoin(String[] str)
 	{
 		Joiner joiner = Joiner.on(" ").skipNulls();
@@ -92,18 +81,14 @@ public class Mood_Detection {
 	}
 	
 	public static void AcroDictLoader() throws FileNotFoundException {
-		
-		//BufferedReader reader = new BufferedReader(new FileReader("E:\emo\data\acronym.txt"));
 		Scanner sc = new Scanner(new File("E:\\emo\\data\\acronym.txt"));
 		while(sc.hasNextLine())
 		{
-			//String line = sc.nextLine();
 			String[] parts = sc.nextLine().split("\t");
 			String part1 = parts[0].trim().toLowerCase();
 			String[] part2 = parts[1].trim().toLowerCase().split(" ");
 			for(int i=0; i<part2.length; i++)
 			{
-				//CharMatcher matcher = CharMatcher.anyOf(spl);
 				part2[i] = matcher.trimFrom(part2[i]).toLowerCase();
 				englishStemmer stemmer = new englishStemmer();
 				stemmer.setCurrent(part2[i]);
@@ -131,7 +116,6 @@ public class Mood_Detection {
 		{
 			String[] parts = sc.nextLine().split("\t");
 			String part1 = parts[0].trim().toLowerCase();
-			//CharMatcher matcher = CharMatcher.anyOf(spl);
 			String part2 = matcher.trimFrom(parts[1]).toLowerCase();
 			if(!emotions.contains(part2))
 				part2 = "other";
@@ -167,7 +151,6 @@ public class Mood_Detection {
 		while(sc.hasNextLine())
 		{
 			String[] parts = sc.nextLine().split("\t");
-			//System.out.println(parts[0] +" - "+ parts[1]);
 			String part1 = matcher.trimFrom(parts[0]).toLowerCase();
 			englishStemmer stemmer = new englishStemmer();
 			stemmer.setCurrent(parts[0]);
@@ -213,17 +196,13 @@ public class Mood_Detection {
 	}
 	
 	public static String ExpandAcronym(String sentence) {
-		//int count = 0;
 		String text = new String();
 		String[] str = sentence.split(" ");
 		for(int i = 0; i<str.length; i++){
-			//int flag = 0;;
 			if(!emoDict.containsKey(str[i].trim())){
 				String word = str[i].trim();
 				if(word != null){
-					//System.out.println(word);
 					if(acroDict.containsKey(word.toLowerCase())){
-						//System.out.println("mayank");
 						if(word.toUpperCase().equals(word))
 							text = text + " " + (acroDict.get(word.toLowerCase())).toUpperCase();
 						else
@@ -240,9 +219,7 @@ public class Mood_Detection {
 							}
 							else
 							{
-								//System.out.println(word);
 								text = text + " " + word;
-								//System.out.println(text);
 							}
 						}
 					}
@@ -256,7 +233,6 @@ public class Mood_Detection {
 	
 	public static String[] replaceRepetition(String sentence) throws Throwable {
 		String[] str = sentence.split(" ");
-		//String[] str2 = new String[]();
 		for(int i = 0; i < str.length; i++){
 			int count = 0;
 			if(str[i].length()>3 && !emoDict.containsKey(str[i])){
@@ -266,7 +242,6 @@ public class Mood_Detection {
 									Character.toLowerCase(str[i].charAt(j-1))==Character.toLowerCase(str[i].charAt(j))){
 						str[i] = str[i].substring(0, j-3) + str[i].substring(j-2);
 						j--;
-						//System.out.println(str[i]);
 						count++;
 					}
 				}
@@ -279,7 +254,7 @@ public class Mood_Detection {
 	
 	public static List<Pair<Integer>> CountPunctuation(String sentence) throws Throwable {
 		String[] str = sentence.split(" ");
-		List<Pair<Integer>> pairlist = new ArrayList<Pair<Integer>>();    //left is !, right is ?
+		List<Pair<Integer>> pairlist = new ArrayList<Pair<Integer>>();
 		for(int i=0; i<str.length; i++){
 			if(!emoDict.containsKey(str[i]))
 				pairlist.add(new Pair<Integer>(CharMatcher.is('!').countIn(str[i]), CharMatcher.is('?').countIn(str[i])));
@@ -295,11 +270,7 @@ public class Mood_Detection {
 		for(int i=0; i<str.length; i++){
 			String word = matcher.trimFrom(str[i].toLowerCase());
 			if(word.length()>=3){
-				//System.out.println(word);
-				//System.out.println(word.substring(word.length()-3));
-				
 				if(word.substring(word.length()-3).equals("n't")){
-					//System.out.println("mayank");
 					if(word.substring(word.length()-5).equalsIgnoreCase("can't"))
 						text.add("can");
 					else
@@ -313,22 +284,16 @@ public class Mood_Detection {
 		}
 		Joiner joiner = Joiner.on(" ").skipNulls();
 		return joiner.join(text);
-		//return stringJoin(text);
 	}
 	
 	public static List<Pair<String>> POStags(String text) throws Throwable {
 		MaxentTagger tagger = new MaxentTagger("tagger/english-left3words-distsim.tagger");
-		//System.out.println(tagger.tagString(text));
 		String[] temp = tagger.tagString(text).split(" ");
-		List<Pair<String>> text_tag_pair = new ArrayList<Pair<String>>(); //left = word, right = tag
+		List<Pair<String>> text_tag_pair = new ArrayList<Pair<String>>();
 		for(int i=0; i<temp.length; i++){
-			//System.out.println(temp[i]);
 			String[] parts = temp[i].split("_");
-			//System.out.println(parts[0] + "-" + parts[1]);
 			text_tag_pair.add(new Pair<String>(parts[0], parts[1]));
 		}
-		//for(int k=0; k<text_tag_pair.size(); k++)
-		//System.out.println(text_tag_pair.get(k).left + "-" + text_tag_pair.get(k).right);
 		return text_tag_pair;
 	}
 	
@@ -339,24 +304,19 @@ public class Mood_Detection {
 		tags.put("VBD", 0.5);
 		tags.put("VBN", 0.5);
 		List<String> keys = new ArrayList<String>();
-		//keys.addAll(text_tag_pair.keySet());
 		List<tuple6> text_tuple_list = new ArrayList<tuple6>(); 
 		int count = 0;
 		for(int i=0; i<keys.size(); i++){
 			if(tags.containsKey(text_tag_pair.get(i).right))
 				text_tuple_list.add(new tuple6(text_tag_pair.get(i).left,text_tag_pair.get(i).right, tags.get(text_tag_pair.get(i).right), null, 0, null));
-				//tagscore.add(tags.get(text_tag_pair.get(keys.get(i))));
 			else if(text_tag_pair.get(i).right.equals("VBG")){
 				if(count>0){
 					if(verbs1.contains(text_tag_pair.get(count-1).left.toLowerCase()))
 						text_tuple_list.add(new tuple6(text_tag_pair.get(i).left, text_tag_pair.get(i).right, 1.0, null, 0, null));
-							//tagscore.add(1.0);
 					else if(text_tag_pair.get(count-1).left.toLowerCase().equals("be"))
 						text_tuple_list.add(new tuple6(text_tag_pair.get(i).left, text_tag_pair.get(i).right, 0.75, null, 0, null));
-							//tagscore.add(0.75);
 					else if(verbs2.contains(text_tag_pair.get(count-1).left.toLowerCase()))
 						text_tuple_list.add(new tuple6(text_tag_pair.get(i).left, text_tag_pair.get(i).right, 0.5, null, 0, null));	
-						//tagscore.add(0.5);
 					else
 						text_tuple_list.add(new tuple6(text_tag_pair.get(i).left, text_tag_pair.get(i).right, 1.0, null, 0, null));
 					}
@@ -389,9 +349,7 @@ public class Mood_Detection {
 					return -1;
 				else return 1;
 			}});
-		//Collections.reverse(amp);
 		int i=0, j=0, cap=0;
-		//String[] words = sentence.split(" ");
 		while(i<sentence_tuple.size()){
 			tuple6 word = sentence_tuple.get(i);
 			if(word.word_stem.toUpperCase().equals(word.word_stem))
@@ -399,14 +357,12 @@ public class Mood_Detection {
 			List<String> phrase1 = new ArrayList<String>();
 			for(int k=j; k<i; k++)
 				phrase1.add(sentence_tuple.get(j).word_stem.toLowerCase());
-				//System.arraycopy(words, j, phrase, 0, i-j);
 			int factor1 = 1;
 			double factor2 = 1.0;
 			if(phrase1.contains("not"))
 				factor1 = -1;
 			Joiner joiner = Joiner.on(" ").skipNulls();
 			String phrase2 = joiner.join(phrase1);
-			//ListIterator amp_it = amp.listIterator();
 			int itr = 0;
 			while(itr<amp.size()){
 				if(phrase2.contains(amp.get(itr))){
@@ -488,9 +444,7 @@ public class Mood_Detection {
 	
 	public static List<tuple6> PreProcessing(String sentence) throws Throwable{
 		sentence = nonASCII(sentence);
-		//System.out.println(sentence);
 		sentence = ExpandNegation(sentence);
-		//System.out.println(sentence);
 		sentence = ExpandAcronym(sentence);
 		System.out.println(sentence);
 		List<Pair<Integer>> count_punct = CountPunctuation(sentence);
@@ -501,10 +455,7 @@ public class Mood_Detection {
 			else
 				s1[i] = s1[i].trim();
 		}
-		//Map<String, String> map = POStags(stringJoin(s1));
-		//System.out.println(map);
 		List<tuple6> temp = DetectTense(POStags(stringJoin(s1)));
-		//System.out.println(temp.get(22).word_stem + "-" + temp.get(22).tag + "-" + temp.get(22).tag_score);
 		for(int i=0; i<temp.size(); i++){
 			if(!emoDict.containsKey(temp.get(i).word_stem.trim())){
 				String s = new String();
@@ -512,7 +463,6 @@ public class Mood_Detection {
 				stemmer.setCurrent(matcher.trimFrom((temp.get(i).word_stem)));
 				if(stemmer.stem())
 					s = matcher.trimFrom(stemmer.getCurrent());
-				//System.out.println(s);
 				temp.add(i, new tuple6(s, temp.get(i).tag, temp.get(i).tag_score, matcher.trimFrom(temp.get(i).word_stem), count_repeatition.get(i), count_punct.get(i)));
 				}
 			else
@@ -563,7 +513,6 @@ public class Mood_Detection {
 		}
 		//corpus1 training
 		int sc_count = 0;
-		//Scanner sc = new Scanner(new File("E:\\emo\\data\\corpus.txt"));
 		Scanner sc = new Scanner(new File("E:\\emo\\data\\temp.txt"));
 		while(sc.hasNextLine()){
 			System.out.println(sc_count);
@@ -578,8 +527,6 @@ public class Mood_Detection {
 			temp = model.get(label);
 			for(int i=0; i<featurelist.size(); i++)
 				temp[i] = temp[i] + vector[i];
-			//for(int j=0; j<featurelist.size(); j++)
-				//System.out.println(temp[j]);
 			model.put(label, temp);
 		}
 		sc.close();	
@@ -628,7 +575,6 @@ public class Mood_Detection {
 				temp = model.get(emotions.get(j));
 				temp[ind] = temp[ind] + wlDict.get(wldlist.get(i))[j];
 				model.put(emotions.get(j), temp);
-				//model.get(emotions.get(j))[ind] = model.get(emotions.get(j))[ind] + wlDict.get(wldlist.get(i))[j];
 			}
 		}
 		
@@ -640,11 +586,7 @@ public class Mood_Detection {
 				temp = model.get(emotions.get(j));
 				temp[ind] = temp[ind] + emoDict.get(emodlist.get(i))[j];
 				model.put(emotions.get(j), temp);
-				//model.get(emotions.get(j))[ind] = model.get(emotions.get(j))[ind] + emoDict.get(emodlist.get(i))[j];
 			}
-		
-		//for(int j=0; j<featurelist.size(); j++)
-			//System.out.println(model.get(emotions.get(0))[j]);
 		
 		while(true){
 			System.out.println("Input Sentence - \n");
@@ -657,12 +599,10 @@ public class Mood_Detection {
 			for(int i=0; i<emotions.size(); i++){
 				double m=0, q=0, count = 0;
 				for(int j=0; j<featurelist.size(); j++){
-					//System.out.println(model.get(emotions.get(i))[j]);
 					m = m + Math.pow(model.get(emotions.get(i))[j], 2.0);
 					q = q + Math.pow(vector[j], 2.0);
 					count = count + model.get(emotions.get(i))[j] * vector[j];
 				}
-				//System.out.println(m + "---" + q);
 				q = Math.sqrt(q);
 				m = Math.sqrt(m);
 				if(q==0)
