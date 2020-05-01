@@ -25,3 +25,9 @@ Effect of Tense I also considered the effect of tense on user’s mood/emotions,
 ### Effect of Capitalization and Repetition
 People use capitalized words and repetated letters in words in texting when they want to put more stress on those words, which gives more impact for those words and their emotions. Thats why I took into consideration this and gave proper weight to these effects. 
 Negation Whenever we use a negation before any emotional keyword, it inverts the emotion of user. But the impact of that emotion is not as high as it should have been for its just opposite emotion. I took this into consideration and took suitable measures.
+
+### Related works
+- Six basic categories of emotions - happiness, sadness, anger, disgust, surprise and fear. (as proposed by Ekman)
+- SemEval, 2007-Task dataset - a prepared list of seed words for those categories.
+- Understanding the semantics of text to identify emotions at the sentence level.
+- Corpus blogs - sentences annotated with single/multiple emotions.
